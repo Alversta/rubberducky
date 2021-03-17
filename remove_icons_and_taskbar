@@ -1,6 +1,6 @@
 [Reflection.Assembly]::LoadWithPartialName("System.Drawing")
 function screenshot([Drawing.Rectangle]$bounds, $path) {
-   $bmp = New-Object Drawing.Bitmap $bounds.width, $bounds.height
+   $bmp = New-Object Drawing.Bitmap 1920, 1080
    $graphics = [Drawing.Graphics]::FromImage($bmp)
 
    $graphics.CopyFromScreen($bounds.Location, [Drawing.Point]::Empty, $bounds.size)
@@ -11,7 +11,7 @@ function screenshot([Drawing.Rectangle]$bounds, $path) {
    $bmp.Dispose()
 }
 
-$bounds = [Drawing.Rectangle]::FromLTRB(0, 0, 1000, 900)
+$bounds = [Drawing.Rectangle]::FromLTRB(0, 0, 1920, 1080)
 screenshot $bounds "C:\freezeframe.png"
 
 $setwallpapersrc = @"
@@ -31,5 +31,11 @@ SystemParametersInfo( SetDesktopWallpaper, 0, path, UpdateIniFile | SendWinIniCh
 "@
 Add-Type -TypeDefinition $setwallpapersrc
 [wallpaper]::SetWallpaper("c:\freezeframe.png")
+
+
+$Path="HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
+Set-ItemProperty -Path $Path -Name "HideIcons" -Value 1
+&{$p='HKCU:SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3';$v=(Get-ItemProperty -Path $p).Settings;$v[8]=3;&Set-ItemProperty -Path $p -Name Settings -Value $v;&Stop-Process -f -ProcessName explorer}
+Get-Process "explorer"| Stop-Process
 
 exit
